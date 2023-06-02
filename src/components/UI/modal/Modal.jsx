@@ -1,28 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
-import { createPortal } from 'react-dom'
-
-const Backdrop = ({ onClose }) => {
-  return <StyledBackdrop onClick={onClose} />
-}
-
-const ModalContent = ({ children }) => {
-  return <ModalStyle>{children}</ModalStyle>
-}
-
-const backdrop = document.getElementById('backdrop')
-const modalContent = document.getElementById('modal')
-
-export const Modal = ({ children, onClick }) => {
+import { Modal,Box } from '@mui/material'
+export const ModalMui = ({ children, onClick ,toggle}) => {
   return (
     <>
-      {createPortal(<Backdrop onClose={onClick} />, backdrop)}
-      {createPortal(<ModalContent>{children}</ModalContent>, modalContent)}
+    <StyledBackdrop onClose={onClick} open={toggle}>
+      <ModalStyle>
+        {children}
+      </ModalStyle>
+    </StyledBackdrop>
+
+
+   
     </>
   )
 }
 
-const ModalStyle = styled.div`
+const ModalStyle = styled(Box)`
   position: fixed;
   top: 22vh;
   left: 4%;
@@ -49,7 +43,7 @@ const ModalStyle = styled.div`
   }
 `
 
-const StyledBackdrop = styled.div`
+const StyledBackdrop = styled(Modal)`
   position: absolute;
   top: 0;
   left: 0;

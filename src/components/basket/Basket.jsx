@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { Modal } from '../UI/modal/Modal'
+import { ModalMui } from '../UI/modal/Modal'
 import styled from 'styled-components'
 import { BasketItem } from './BasketItem'
 import { TotalAmount } from './TotalAmount'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBasket } from '../../store/basket/basketThunk'
 
-export const Basket = ({ toggleHandler }) => {
+export const Basket = ({ toggleHandler ,toggle}) => {
   const { items } = useSelector((state) => state.basket)
   const dispatch = useDispatch()
 
@@ -20,7 +20,7 @@ export const Basket = ({ toggleHandler }) => {
   )
 
   return (
-    <Modal onClick={toggleHandler}>
+    <ModalMui onClick={toggleHandler} toggle={toggle}>
       <Content>
         {items?.length ? (
           <FixedWidthContainer>
@@ -41,7 +41,7 @@ export const Basket = ({ toggleHandler }) => {
         ) : null}
         <TotalAmount toggleHandler={toggleHandler} totalPrice={totalPrice} />
       </Content>
-    </Modal>
+    </ModalMui>
   )
 }
 

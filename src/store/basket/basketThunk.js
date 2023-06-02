@@ -25,9 +25,13 @@ export const addItem = createAsyncThunk(
       });
 
       dispatch(getBasket());
+      // payload.successHandler()
+
 
       return await response.items;
     } catch (error) {
+      // payload.errorHandler()
+
       return rejectWithValue(
         error?.response?.message || "Something went wrong ! "
       );
@@ -51,7 +55,7 @@ export const incrementFood = createAsyncThunk(
       return await response.items;
     } catch (error) {
       return rejectWithValue(
-        error?.response?.message || "Something went wrong ! "
+        error
       );
     }
   }
@@ -75,7 +79,7 @@ export const decrementFood = createAsyncThunk(
         return await response.items;
       } catch (error) {
         return rejectWithValue(
-          error?.response?.message || "Something went wrong ! "
+          error
         );
       }
     } else {

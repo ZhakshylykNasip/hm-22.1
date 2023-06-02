@@ -18,7 +18,7 @@ const AppContent = () => {
       <Header toggleHandler={toggleHandler} />
       <MealSummary />
       <Meals />
-      {toggle && <Basket toggleHandler={toggleHandler} />}
+      {toggle && <Basket toggleHandler={toggleHandler} toggle={toggle}/>}
     </>
   )
 }

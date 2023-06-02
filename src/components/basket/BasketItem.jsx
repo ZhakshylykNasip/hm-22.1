@@ -1,20 +1,44 @@
-import React from 'react'
-import styled from 'styled-components'
-import { ReactComponent as BasketMinus } from '../../assets/icons/minus.svg'
-import { ReactComponent as BasketPlus } from '../../assets/icons/plus.svg'
-import { decrementFood, incrementFood } from '../../store/basket/basketThunk'
-import { useDispatch } from 'react-redux'
+import React from "react";
+import styled from "styled-components";
+import { ReactComponent as BasketMinus } from "../../assets/icons/minus.svg";
+import { ReactComponent as BasketPlus } from "../../assets/icons/plus.svg";
+import { decrementFood, incrementFood } from "../../store/basket/basketThunk";
+import { useDispatch } from "react-redux";
+import { snackbarActions } from "../../store/snackbar";
 
 export const BasketItem = ({ title, price, amount, id }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const incrementFoodHandler = () => {
-    dispatch(incrementFood({id: id, amount:amount}))
-  }
+  const incrementFoodHandler = async () => {
+    try {
+      await dispatch(incrementFood({ id: id, amount: amount })).unwrap()
 
-  const decrementFoodHandler = () => {
-    dispatch(decrementFood({id:id,amount: amount-1 }))
-  }
+      dispatch(
+        snackbarActions.doSuccess( `${title} - Успешно добавлен ` )
+      )
+    } catch (error) {
+      dispatch(
+        snackbarActions.doError(
+           "Извините кажется у вас нету интернета ",
+        )
+      );
+    }
+  };
+
+  const decrementFoodHandler = async () => {
+    try {
+      await dispatch(decrementFood({ id: id, amount: amount - 1 })).unwrap()
+      dispatch(
+        snackbarActions.doSuccess( `${title} - Успешно удалён ` )
+      );
+    } catch (error) {
+      dispatch(
+        snackbarActions.doError(
+         "Извините кажется у вас нету интернета "
+        )
+      );
+    }
+  };
 
   return (
     <Container>
@@ -35,14 +59,14 @@ export const BasketItem = ({ title, price, amount, id }) => {
         </CounterContainer>
       </Content>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   padding: 24px 10px;
   width: 100%;
   border-bottom: 2px solid #d6d6d6;
-`
+`;
 
 const Title = styled.p`
   display: flex;
@@ -53,20 +77,20 @@ const Title = styled.p`
   text-align: center;
   color: #222222;
   margin: 0 0 12px 0;
-`
+`;
 
 const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 
 const PriceAndAmountContainer = styled.div`
   display: flex;
   align-items: center;
   width: 155px;
   justify-content: space-between;
-`
+`;
 
 const Price = styled.p`
   font-weight: 600;
@@ -74,7 +98,7 @@ const Price = styled.p`
   line-height: 27px;
   color: #ad5502;
   margin: 0;
-`
+`;
 
 const Amount = styled.span`
   box-sizing: border-box;
@@ -86,12 +110,12 @@ const Amount = styled.span`
   line-height: 24px;
   color: #222222;
   display: block;
-`
+`;
 
 const CounterContainer = styled.div`
   display: flex;
   gap: 14px;
-`
+`;
 
 const ContainerStyleMinusBasket = styled.button`
   box-sizing: border-box;
@@ -117,7 +141,7 @@ const ContainerStyleMinusBasket = styled.button`
   :active {
     background-color: #993108;
   }
-`
+`;
 
 const ContainerStylePlusBasket = styled.button`
   box-sizing: border-box;
@@ -143,4 +167,4 @@ const ContainerStylePlusBasket = styled.button`
   :active {
     background-color: #993108;
   }
-`
+`;
